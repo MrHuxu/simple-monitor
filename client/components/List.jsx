@@ -1,17 +1,31 @@
+import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Item from './Item.jsx';
+import { receiveRecord } from '../actions/monitorActions';
 
 class List extends Component {
+  componentDidMount () {
+    const { dispatch } = this.props;
+
+    var socket = io();
+    socket.on('new record', (data) => {
+      dispatch(receiveRecord(data));
+      console.log(data);
+    });
+
+    $('.ui.accordion').accordion();
+  }
+
   render () {
-    var items = [];
-    for (var i = 0; i < 10; ++i) {
-      items.push(<div className='item'><Item /></div>);
-    }
+    const { records } = this.props;
+    var items = records.map(record => <Item key={record.infos.createdAt} infos={record.infos} request={record.request} response={record.response} />);
 
     return (
-      <div className='ui relaxed divided list'>
-        <Item />
+      <div>
+        <div className='ui styled fluid accordion'>
+          {items}
+        </div>
       </div>
     );
   }
@@ -19,8 +33,8 @@ class List extends Component {
 
 var mapStateToProps = function (state) {
   return {
-    archives: state.monitor.records
+    records: state.monitor.records
   };
 };
 
-export default List;
+export default connect(mapStateToProps)(List);
