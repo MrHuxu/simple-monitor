@@ -11,20 +11,35 @@ class List extends Component {
     var socket = io();
     socket.on('new record', (data) => {
       dispatch(receiveRecord(data));
-      console.log(data);
     });
 
     $('.ui.accordion').accordion();
   }
 
   render () {
-    const { records } = this.props;
-    var items = records.map(record => <Item key={record.infos.createdAt} infos={record.infos} request={record.request} response={record.response} />);
+    const { records, selectedRecords } = this.props;
+    var items = records.map(record => <Item key={record.infos.createdAt} record={record} category={'realtime'} infos={record.infos} request={record.request} response={record.response} />);
+    var selectedItems = selectedRecords.map(record => <Item key={'select - ' + record.infos.createdAt} record={record} category={'selected'} infos={record.infos} request={record.request} response={record.response} />);
 
     return (
       <div>
-        <div className='ui styled fluid accordion'>
-          {items}
+        <div className='ui grid'>
+          <div className='eight wide column'>
+            <div className='ui segment center aligned'>
+              <h1 className='ui head' style={{color: '#999'}}> Real Time </h1>
+            </div>
+            <div className='ui styled fluid accordion'>
+              {items}
+            </div>
+          </div>
+          <div className='eight wide column'>
+            <div className='ui segment center aligned'>
+              <h1 className='ui head' style={{color: '#999'}}> Selected </h1>
+            </div>
+            <div className='ui styled fluid accordion'>
+              {selectedItems}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -33,7 +48,8 @@ class List extends Component {
 
 var mapStateToProps = function (state) {
   return {
-    records: state.monitor.records
+    records: state.monitor.records,
+    selectedRecords: state.monitor.selectedRecords
   };
 };
 

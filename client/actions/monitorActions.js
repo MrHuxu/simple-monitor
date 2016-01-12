@@ -7,3 +7,11 @@ export function receiveRecord (data) {
     content: data
   };
 }
+
+export const SELECT_RECORD = 'SELECT_RECORD';
+export function selectRecord (data) {
+  return {
+    type: SELECT_RECORD,
+    content: data
+  };
+}

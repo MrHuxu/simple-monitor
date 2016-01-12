@@ -1,10 +1,24 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import JSONTree from 'react-json-tree';
+import { connect } from 'react-redux';
+import { selectRecord } from '../actions/monitorActions';
 
 class Item extends Component {
+  constructor (props) {
+    super(props);
+
+    this.handleSelect = this.handleSelect.bind(this);
+  }
+
+  handleSelect (e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    this.props.dispatch(selectRecord(this.props.record));
+  }
+
   render () {
-    const { infos, request, response } = this.props;
+    const { category, infos, request, response } = this.props;
 
     const theme = {
       scheme: 'monokai',
@@ -35,15 +49,27 @@ class Item extends Component {
           <span style={{marginLeft: '20px'}}>Network: {infos.network}</span>
           <span style={{marginLeft: '20px'}}>Channel: {infos.channel}</span>
           <span style={{marginLeft: '20px'}}>Airing: {infos.airing}</span>
+          <span
+            style={{
+              marginLeft: '20px',
+              display: category === 'realtime' ? '' : 'none'
+            }}
+            className='ui gray button'
+            onClick={this.handleSelect}
+          >
+            Select
+          </span>
         </div>
         <div className='content'>
           <div className='ui grid'>
             <div className='eight wide column left aligned'>
+              <h5 style={{color: '#777'}}>Request</h5>
               <div style={{ backgroundColor: theme.base00 }}>
                 <JSONTree data={request} theme={theme} />
               </div>
             </div>
             <div className='eight wide column left aligned'>
+              <h5 style={{color: '#777'}}>Response</h5>
               <div style={{ backgroundColor: theme.base00 }}>
                 <JSONTree data={response} theme={theme} />
               </div>
@@ -56,4 +82,4 @@ class Item extends Component {
   }
 }
 
-export default Item;
+export default connect()(Item);
