@@ -7,14 +7,14 @@ import { selectRecord } from '../actions/monitorActions';
 class Item extends Component {
   constructor (props) {
     super(props);
-
-    this.handleSelect = this.handleSelect.bind(this);
   }
 
-  handleSelect (e) {
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    this.props.dispatch(selectRecord(this.props.record));
+  componentDidMount () {
+    $('.ui.button').click((e) => {
+      e.stopPropagation();
+      $(e.target).addClass('disabled');
+      this.props.dispatch(selectRecord(this.props.record));
+    })
   }
 
   render () {
@@ -55,7 +55,6 @@ class Item extends Component {
               display: category === 'realtime' ? '' : 'none'
             }}
             className='ui gray button'
-            onClick={this.handleSelect}
           >
             Select
           </span>
