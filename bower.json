@@ -1,0 +1,25 @@
+{
+  "name": "hylda_monitor",
+  "description": "A simple monitor for HYLDA related http request & response",
+  "main": "index.js",
+  "authors": [
+    "xhu"
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic": "semantic-ui#~2.1.8"
+  }
+}
