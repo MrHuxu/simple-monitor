@@ -7,14 +7,14 @@ import { selectRecord } from '../actions/monitorActions';
 class Item extends Component {
   constructor (props) {
     super(props);
+
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
-  componentDidMount () {
-    $('.ui.button').click((e) => {
-      e.stopPropagation();
-      $(e.target).addClass('disabled');
-      this.props.dispatch(selectRecord(this.props.record));
-    })
+  handleSelect (e) {
+    $(e.target).addClass('disabled');
+    e.stopPropagation();
+    this.props.dispatch(selectRecord(this.props.record));
   }
 
   render () {
@@ -42,7 +42,7 @@ class Item extends Component {
     };
 
     return (
-      <div>
+      <div className={`animated ${category === 'realtime' ? 'bounceInLeft' : 'bounceInRight'}`}>
         <div className='title'>
           <i className='dropdown icon'></i>
           <span>{infos.createdAt}</span>
@@ -50,11 +50,12 @@ class Item extends Component {
           <span style={{marginLeft: '20px'}}>Channel: {infos.channel}</span>
           <span style={{marginLeft: '20px'}}>Airing: {infos.airing}</span>
           <span
-            style={{
+            style = {{
               marginLeft: '20px',
               display: category === 'realtime' ? '' : 'none'
             }}
-            className='ui gray button'
+            className = 'ui gray button'
+            onClick = {this.handleSelect}
           >
             Select
           </span>

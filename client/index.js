@@ -1,9 +1,8 @@
-import '../node_modules/nprogress/nprogress.css';
+import '../node_modules/animate.css/animate.min.css';
 
 import $ from 'jquery';
 window.jQuery = $; // Assure it's available globally.
 require('../server/public/components/semantic/dist/semantic.min.js');
-require('../node_modules/jqtree');
 
 import React, { Component } from 'react';
 import reactDom from 'react-dom';
