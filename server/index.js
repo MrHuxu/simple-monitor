@@ -4,8 +4,9 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 
-var initSocket = require('./lib/socket');
-initSocket(http);
+var watchLog = require('./lib/watch-log');
+watchLog.initSocket(http);
+watchLog.startWatch('/Users/xhu/workspace/ui/uif/log/development.log');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
