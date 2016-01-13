@@ -33,8 +33,6 @@ gulp.task("webpack-dev-server", function(callback) {
   });
 });
 
-gulp.task('cache', shell.task('node lib/cache-all --harmony'));
+gulp.task('prd', ['webpack'], shell.task('NODE_ENV=production forever start server/index.js --harmony'));
 
-gulp.task('prd', ['webpack', 'cache'], shell.task('NODE_ENV=production forever start server/index --harmony'));
-
-gulp.task('dev', ['webpack-dev-server'], shell.task('NODE_ENV=development nodemon server/index --harmony'));
+gulp.task('dev', ['webpack-dev-server'], shell.task('NODE_ENV=development nodemon server/index.js --harmony'));
