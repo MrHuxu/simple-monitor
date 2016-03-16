@@ -1,33 +1,41 @@
-var path    = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
+  devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://0.0.0.0:6789', // WebpackDevServer host and port
-    'webpack/hot/dev-server', // "only" prevents reload on syntax errors
-    './client/index' // Your appʼs entry point
+    'webpack-dev-server/client?http://localhost:7001',
+    'webpack/hot/only-dev-server',
+    './client'
   ],
-
   output: {
-    path: path.join(__dirname, 'server', 'public', 'built'),
-    filename: 'bundle.js',
-    publicPath: '/assets/'
+    path: path.join(__dirname, 'vendor', 'dist'),
+    filename: 'bundle.js'
   },
-
-  module: {
-    loaders: [
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'react-hot!babel-loader' },
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
-      { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url?limit=10000!img?progressive=true' }
+  resolve: {
+    extensions: ['', '.jsx', '.scss', '.js', '.json'],  // along the way, subsequent file(s) to be consumed by webpack
+    modulesDirectories: [
+      'node_modules',
+      path.resolve(__dirname, './node_modules')
     ]
   },
-
+  module: {
+    loaders: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loaders: ['react-hot', 'babel']
+      }, {
+        test: /\.(scss|sass|css)$/,
+        loaders: ['style', 'css']
+      }, {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'file'
+      }
+    ]
+  },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({minimize: true}),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.DedupePlugin()
+    new webpack.NoErrorsPlugin()
   ]
-}
+};

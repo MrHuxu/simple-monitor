@@ -1,3 +1,6 @@
-/node_modules
-/server/public/components
-/server/public/built
+node_modules/
+vendor/dist/*.svg
+vendor/dist/bundle.js
+vendor/dist/bundle.css
+vendor/dist/assets
+snippets.db

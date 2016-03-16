@@ -1,11 +1,11 @@
 import thunkMiddleware from 'redux-thunk';
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
-import { monitor } from './reducers/monitorReducer';
+import { filter } from '../reducers/FilterReducer';
 
 const rootReducer = combineReducers({
-  monitor
+  filter
 });
 
-export const store = compose(
+export const rootStore = compose(
   applyMiddleware(thunkMiddleware)
 )(createStore)(rootReducer);
